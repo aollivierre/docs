@@ -1,18 +1,6 @@
 > **Disclaimer:** This content was created with the assistance of Generative AI. While efforts have been made to ensure accuracy and relevance, users are advised to review and verify the information provided according to their specific needs and context.
 
 
-In Markdown, you can create links within the document (also known as "anchor links") by using the following syntax:
-
-```
-[Link Text](#section-name)
-```
-
-The `#section-name` should match the section header, converted to lowercase and with spaces replaced by hyphens. Special characters like commas or periods are usually removed.
-
-Here’s how you can link to the sections from the Table of Contents in your Markdown file:
-
-### Example:
-
 **Table of Contents**
 
 1. [Introduction](#introduction)
