@@ -1,6 +1,41 @@
 > **Disclaimer:** This content was created with the assistance of Generative AI. While efforts have been made to ensure accuracy and relevance, users are advised to review and verify the information provided according to their specific needs and context.
 
 
+In Markdown, you can create links within the document (also known as "anchor links") by using the following syntax:
+
+```
+[Link Text](#section-name)
+```
+
+The `#section-name` should match the section header, converted to lowercase and with spaces replaced by hyphens. Special characters like commas or periods are usually removed.
+
+Here’s how you can link to the sections from the Table of Contents in your Markdown file:
+
+### Example:
+
+**Table of Contents**
+
+1. [Introduction](#introduction)
+2. [2020 Approach vs. 2024 Approach](#2020-approach-vs-2024-approach)
+3. [Detailed Implementation Guide](#detailed-implementation-guide)
+4. [Best Practices](#best-practices)
+5. [FAQs](#faqs)
+6. [Credits and References](#credits-and-references)
+7. [Conclusion](#conclusion)
+
+**Section Headers in the Document:**
+
+```
+## Introduction
+## 2020 Approach vs. 2024 Approach
+## Detailed Implementation Guide
+## Best Practices
+## FAQs
+## Credits and References
+## Conclusion
+```
+
+
 ### Table of Contents
 
 1.  **Introduction**
@@ -22,7 +57,7 @@
         -   Step-by-Step Configuration in Intune
         -   OMA-URI Settings for Automated Local Admin Account Creation
         -   Assigning to Devices
-        -   **Disclaimer:** This approach is currently available only in the Windows Insider Canary Channel and not suitable for production environments.
+        -   **Disclaimer:** This approach is currently available only in the Windows 11 Insider Canary Channel and not suitable for production environments.
 4.  **Best Practices**
     
     -   Naming Conventions for Policies
@@ -68,9 +103,9 @@ _Credit for this approach: https://inthecloud247.com/create-a-local-user-account
 
 #### Automated Account Management with LAPS CSP (2024) _*Windows 11 Insider Canary*_
 
-The 2024 approach introduces a more automated method of managing local administrator accounts using the LAPS CSP. Available only in the Windows Insider Canary Channel, this method allows administrators to automate the creation, management, and rotation of local admin account passwords. With LAPS CSP, administrators can set up policies that automatically generate secure local admin accounts, manage their passwords, and enforce password complexity, significantly reducing manual overhead.
+The 2024 approach introduces a more automated method of managing local administrator accounts using the LAPS CSP. Available only in the Windows 11 Insider Canary Channel, this method allows administrators to automate the creation, management, and rotation of local admin account passwords. With LAPS CSP, administrators can set up policies that automatically generate secure local admin accounts, manage their passwords, and enforce password complexity, significantly reducing manual overhead.
 
-**Disclaimer:** The 2024 approach is currently available only in the Windows Insider Canary Channel and is not recommended for production environments. Administrators should carefully evaluate the stability and security implications before deploying this method.
+**Disclaimer:** The 2024 approach is currently available only in the Windows 11 Insider Canary Channel and is not recommended for production environments. Administrators should carefully evaluate the stability and security implications before deploying this method.
 
 _Credit for this approach: https://ourcloudnetwork.com/how-to-enable-automatic-account-creation-with-laps-in-intune/
 
@@ -336,7 +371,7 @@ This table should help you quickly compare and contrast the two examples.
 5.  **Assign the Profile:**
     
     -   Assign the profile to **Device Groups** where you want the LAPS-managed local admin account to be created.
-6.  **Disclaimer:** This approach is currently available only in the Windows Insider Canary Channel and is not recommended for production environments. Monitor the deployment and account management through the **Intune Admin Center**.
+6.  **Disclaimer:** This approach is currently available only in the Windows 11 Insider Canary Channel and is not recommended for production environments. Monitor the deployment and account management through the **Intune Admin Center**.
     
 
 ##### Assigning to Devices
