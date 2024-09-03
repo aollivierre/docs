@@ -84,7 +84,7 @@ _Credit for this approach: https://ourcloudnetwork.com/how-to-enable-automatic-a
 
 -   **Manual vs. Automated:** The 2020 approach is manual, requiring specific configuration for each account, while the 2024 approach automates account creation and password management.
 -   **Flexibility:** The 2020 method allows for detailed customization of the account name and properties, whereas the 2024 approach focuses on automation and may use randomized account names.
--   **Availability:** The 2020 approach is suitable for all production environments, while the 2024 approach is limited to the Insider Canary Channel.
+-   **Availability:** The 2020 approach is suitable for all production environments, while the 2024 approach is limited to the Windows 11 Insider Canary Channel.
 
 
 
@@ -508,7 +508,7 @@ Simpler Version
 
 #### **Q3: Does this approach work on both Windows 10 and Windows 11?**
 
-**A:** The 2020 approach works on both Windows 10 and Windows 11. However, the 2024 approach is currently limited to Windows 11 devices running the Insider Canary Channel.
+**A:** The 2020 approach works on both Windows 10 and Windows 11. However, the 2024 approach is currently limited to Windows 11 devices running the Windows 11 Insider Canary Channel.
 
 #### **Q4: Should I assign the policy to users or devices?**
 
