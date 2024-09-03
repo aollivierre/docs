@@ -26,6 +26,7 @@
     -   Automated Account Management with LAPS CSP (2024) _Windows 11 (Insider Canary)_
     -   Key Differences and Use Cases
 3.  **Detailed Implementation Guide**
+3.  **Detailed Implementation Guide** [Detailed Implementation Guide](#detailed-implementation-guide)
     
     -   2020 Approach
         -   Step-by-Step Configuration in Intune
