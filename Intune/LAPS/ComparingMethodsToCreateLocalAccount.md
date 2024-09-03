@@ -353,47 +353,6 @@ This table should help you quickly compare and contrast the two examples.
 -   Similar to the 2020 approach, assign the policy to the appropriate **Device Groups** in Intune.
 -   This approach automates the creation and management of local admin accounts on the targeted devices.
 
-
-
-
-### 4. Best Practices
-
-#### Naming Conventions for Policies
-
-When managing multiple Intune policies, especially those related to local administrator accounts, it's crucial to use a consistent and descriptive naming convention. This practice helps in organizing policies, making them easier to identify and manage over time.
-
-**Recommended Naming Convention:**
-
--   **Format:** `PolicyType_SequenceNumber_Description_TargetPlatform`
--   **Example:** `CSP_01_LocalAdmin_AccountCreation_Windows10-11`
-
-**Explanation:**
-
--   **PolicyType:** Indicates the type of policy, such as `CSP` for Configuration Service Provider policies.
--   **SequenceNumber:** A numerical value to help organize and sequence related policies.
--   **Description:** A brief description of the policy’s purpose, such as `LocalAdmin_AccountCreation`.
--   **TargetPlatform:** Specifies the target operating system, e.g., `Windows10-11`.
-
-#### Security Considerations
-
-Managing local administrator accounts is a critical security task. Here are some best practices to ensure secure management:
-
-1.  **Unique Passwords:** Ensure each local admin account has a unique password across devices. This can be automated using LAPS in the 2024 approach.
-2.  **Password Complexity:** Implement strong password complexity requirements to prevent brute-force attacks. This is especially important when using LAPS to manage passwords.
-3.  **Limit Scope:** Avoid using broad administrative roles such as Global Admin or Device Admin in Entra ID unless absolutely necessary. Local admin accounts should be scoped as narrowly as possible to reduce the attack surface.
-4.  **Regular Rotation:** Regularly rotate local admin passwords to minimize the risk of compromised credentials. This can be automated with the LAPS solution in the 2024 approach.
-5.  **Disable Unnecessary Accounts:** Disable the built-in `.\administrator` account if it’s not needed, as it has a known SID that attackers can target.
-
-#### Scope Limitation with RBAC Roles
-
-Role-Based Access Control (RBAC) in Entra ID allows for granular control over administrative access. However, it’s important to limit the scope of RBAC roles to minimize security risks:
-
--   **Avoid Over-Privileged Roles:** Use least privilege principles to assign only the necessary permissions to each role.
--   **Custom Roles:** Consider creating custom roles with specific, limited permissions that match the needs of your environment, rather than using broad roles like Global Admin.
--   **Local Admins:** Use local administrator accounts managed by LAPS for tasks that don’t require cloud-level administrative access, keeping Global Admin and Device Admin roles reserved for situations where they are truly necessary.
-
-
-
 ### 4. Best Practices
 
 #### Naming Conventions for Policies
@@ -441,7 +400,7 @@ Role-Based Access Control (RBAC) in Entra ID allows for granular control over ad
 
 
 
-Certainly! Here's the breakdown of the description into its key components:
+Here's the breakdown of the description into its key components:
 
 ### 1. **Author Information:**
    - **"Created by: Author Name"**
