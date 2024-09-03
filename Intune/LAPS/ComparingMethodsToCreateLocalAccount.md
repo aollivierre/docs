@@ -506,8 +506,6 @@ This section is reserved for acknowledging the original authors and sources that
 -   **Original Article:** https://ourcloudnetwork.com/how-to-enable-automatic-account-creation-with-laps-in-intune/
 -   **Author:** Daniel Bradley
 
-_Note: Replace the placeholders with the actual URLs and author names to properly credit the sources._
-
 ## 7. Conclusion
 
 Both the 2020 and 2024 approaches to creating local administrator accounts on Windows devices provide valuable methods for ensuring secure and effective account management.
@@ -521,9 +519,3 @@ Both the 2020 and 2024 approaches to creating local administrator accounts on Wi
 -   Ensure that all local admin accounts are properly managed with unique, complex passwords and that ongoing password management is in place through LAPS policies.
 
 By following the best practices and guidelines provided, you can effectively manage local administrator accounts in your organization, enhancing both security and operational efficiency.
-
-
-**Section Headers in the Document:**
-
-
-
