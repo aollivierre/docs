@@ -3,6 +3,15 @@
 > **Disclaimer:** The 2024 approach discussed in this article is currently available only for Windows 11 Insider Canary builds. It is not recommended for production environments. Please evaluate the stability and security implications before deploying this method in any critical systems.
 
 
+> **Disclaimer:** The 2024 approach discussed in this article is currently available only for Windows 11 Insider Canary builds. It is not recommended for production environments. Please evaluate the stability and security implications before deploying this method in any critical systems.
+>
+> **Note:** If you encounter the following error codes when using the 2020 approach to create a local administrator account, they can be safely ignored:
+>
+> - **Error Code:** `0x87d1fde8`
+> - **Error:** `-2016281112`
+>
+> These errors are a known reporting bug in Intune and do not affect the actual creation or functionality of the local administrator account. The profile settings for `Password` and `LocalUserGroup` may show an error status, but the local admin account should still be created and function as intended.
+
 ### Table of Contents
 
 1. [Introduction](#1-introduction)
