@@ -17,16 +17,26 @@
 
 ### Table of Contents
 
-1.  **Introduction**
+
+
+
+## Detailed Implementation Guide
+## Best Practices
+## FAQs
+## Credits and References
+## Conclusion
+## Appendix
+
+1.  ## Introduction
     
     -   Overview of LAPS
     -   Importance of Secure Local Admin Account Management
-2.  **2020 Approach vs. 2024 Approach**
+2.  ## 2020 Approach vs. 2024 Approach
     
     -   Manual Account Creation using CSP (2020)
     -   Automated Account Management with LAPS CSP (2024) _Windows 11 (Insider Canary)_
     -   Key Differences and Use Cases
-3.  **Detailed Implementation Guide**
+    
 3.  **Detailed Implementation Guide**
     
     -   2020 Approach
@@ -567,11 +577,4 @@ By following the best practices and guidelines provided, you can effectively man
 **Section Headers in the Document:**
 
 
-## Introduction
-## 2020 Approach vs. 2024 Approach
-## Detailed Implementation Guide
-## Best Practices
-## FAQs
-## Credits and References
-## Conclusion
-## Appendix
+
