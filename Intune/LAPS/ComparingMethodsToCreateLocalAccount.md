@@ -1,11 +1,8 @@
 > **Disclaimer:** This content was created with the assistance of Generative AI. While efforts have been made to ensure accuracy and relevance, users are advised to review and verify the information provided according to their specific needs and context.
 
-
-**Table of Contents**
-
 ### Table of Contents
 
-1. [Introduction](#introduction)
+1. [Introduction](#1-introduction)
     
     -   Overview of LAPS
     -   Importance of Secure Local Admin Account Management
