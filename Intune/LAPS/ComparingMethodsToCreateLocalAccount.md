@@ -6,13 +6,14 @@
     
     -   Overview of LAPS
     -   Importance of Secure Local Admin Account Management
-2. [2020 Approach vs. 2024 Approach](#2020-approach-vs-2024-approach)
+
+2. [2020 Approach vs. 2024 Approach](#2-2020-approach-vs-2024-approach)
     
     -   Manual Account Creation using CSP (2020)
     -   Automated Account Management with LAPS CSP (2024) _Windows 11 (Insider Canary)_
     -   Key Differences and Use Cases
 
-3. [Detailed Implementation Guide](#detailed-implementation-guide)
+3. [Detailed Implementation Guide](#3-detailed-implementation-guide)
     
     -   2020 Approach
         -   Step-by-Step Configuration in Intune
@@ -23,26 +24,31 @@
         -   OMA-URI Settings for Automated Local Admin Account Creation
         -   Assigning to Devices
         -   **Disclaimer:** This approach is currently available only in the Windows 11 Insider Canary Channel and not suitable for production environments.
-4. [Best Practices](#best-practices)
+
+4. [Best Practices](#4-best-practices)
     
     -   Naming Conventions for Policies
     -   Security Considerations
     -   Scope Limitation with RBAC Roles
-5. [FAQs](#faqs)
+
+5. [FAQs](#5-faqs)
     
     -   Can I specify the exact account name in the 2024 approach?
     -   How does the LAPS policy manage and auto-rotate passwords?
     -   Does this approach work on both Windows 10 and Windows 11?
     -   Should I assign the policy to users or devices?
     -   What is the difference between prefixing and randomizing account names?
-6. [Credits and References](#credits-and-references)
+
+6. [Credits and References](#6-credits-and-references)
     
     -   Placeholder for Original Articles
     -   Acknowledgment of Authors
-7. [Conclusion](#conclusion)
+
+7. [Conclusion](#7-conclusion)
     
     -   Summary of Approaches
     -   Recommendations for Implementing LAPS in Production Environments
+
 
 
 
