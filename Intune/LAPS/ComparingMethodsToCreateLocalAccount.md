@@ -67,7 +67,7 @@ Local administrator accounts are critical for managing Windows devices, but they
 
 
 
-### 2. 2020 Approach vs. 2024 Approach
+## 2. 2020 Approach vs. 2024 Approach
 
 #### Manual Account Creation using CSP (2020)
 
@@ -255,7 +255,7 @@ This table should help you quickly compare and contrast the two examples.
 
 
 
-### 3. Detailed Implementation Guide
+## 3. Detailed Implementation Guide
 
 #### 2020 Approach
 
@@ -353,7 +353,7 @@ This table should help you quickly compare and contrast the two examples.
 -   Similar to the 2020 approach, assign the policy to the appropriate **Device Groups** in Intune.
 -   This approach automates the creation and management of local admin accounts on the targeted devices.
 
-### 4. Best Practices
+## 4. Best Practices
 
 #### Naming Conventions for Policies
 
@@ -458,7 +458,7 @@ Simpler Version
 
 
 
-### 5. FAQs
+## 5. FAQs
 
 #### **Q1: Can I specify the exact account name in the 2024 approach?**
 
@@ -486,7 +486,7 @@ Simpler Version
 
 
 
-### 6. Credits and References
+## 6. Credits and References
 
 This section is reserved for acknowledging the original authors and sources that contributed to the approaches discussed in this article. It’s important to credit the individuals and resources that provided the foundational knowledge and methods you have implemented.
 
@@ -502,7 +502,7 @@ This section is reserved for acknowledging the original authors and sources that
 
 _Note: Replace the placeholders with the actual URLs and author names to properly credit the sources._
 
-### 7. Conclusion
+## 7. Conclusion
 
 Both the 2020 and 2024 approaches to managing local administrator accounts on Windows devices provide valuable methods for ensuring secure and effective account management.
 
