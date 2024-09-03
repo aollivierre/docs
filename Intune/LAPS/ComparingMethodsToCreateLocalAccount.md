@@ -510,7 +510,7 @@ _Note: Replace the placeholders with the actual URLs and author names to properl
 
 ## 7. Conclusion
 
-Both the 2020 and 2024 approaches to managing local administrator accounts on Windows devices provide valuable methods for ensuring secure and effective account management.
+Both the 2020 and 2024 approaches to creating local administrator accounts on Windows devices provide valuable methods for ensuring secure and effective account management.
 
 -   **2020 Approach:** Suitable for production environments across Windows 10 and Windows 11, this method involves manual setup and configuration, giving administrators full control over the account details.
 -   **2024 Approach:** An automated method available exclusively for Windows 11 Canary builds, this approach simplifies the creation and management of local admin accounts, including initial password automation. However, ongoing password management and rotation must be handled through LAPS policies under Account Protection in Endpoint Security.
