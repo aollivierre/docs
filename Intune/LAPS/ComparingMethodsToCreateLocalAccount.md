@@ -135,7 +135,7 @@ The main difference in the OMA-URI between the 2020 article by Peter Klapwijk an
 
 Here's a table that compares the two approaches:
 
-| **Aspect**                      | **2020 Approach**                                                                 | **2024 Approach** (Insider Preview)                                               |
+| **Aspect**                      | **2020 Approach**                                                                 | **2024 Approach** (Windows 11 Insider Preivew)                                               |
 |---------------------------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | **Method**                      | Manual creation using the Accounts CSP via OMA-URI                                | Automated creation using LAPS CSP via OMA-URI                                     |
 | **OMA-URI**                     | `./Device/Vendor/MSFT/Accounts/Users/{UserName}/LocalUserGroup`                   | Various LAPS settings, e.g., `./Device/Vendor/MSFT/LAPS/Policies/AutomaticAccountManagementEnableAccount` |
@@ -144,7 +144,7 @@ Here's a table that compares the two approaches:
 | **Automation**                  | Low: Manual setup required for each account.                                      | High: Automatic account creation and management via LAPS.                         |
 | **Password Management**         | Manual entry of password.                                                         | Automated password complexity and management via LAPS.                            |
 | **Account Name Management**     | Manually specified in OMA-URI.                                                    | Can be automated with options for name randomization.                             |
-| **Applicability**               | Works on all production-level Windows 10 and 11 machines.                         | Currently only available on Windows Insider Preview Builds (Canary Channel).      |
+| **Applicability**               | Works on all production-level Windows 10 and 11 machines.                         | Currently only available on Windows 11 Insider Preivew Builds (Canary Channel).      |
 | **Admin Rights Assignment**     | Optional, by specifying `LocalUserGroup` OMA-URI with a value of `2`.             | Automatic, based on LAPS CSP settings.                                            |
 | **Outcome**                     | Creates a custom local user account with optional admin rights.                   | Creates and manages a custom local admin account automatically.                   |
 
@@ -182,7 +182,7 @@ This example shows how to manually create a local admin account using the Accoun
 
 **Outcome:** A new local user account named `LocalUser` is created on the device with the password `YourPassword123`, and the account is added to the local Administrators group.
 
-### 2024 Approach Example (Insider Preview)
+### 2024 Approach Example (Windows 11 Insider Preivew)
 
 This example shows how to automatically create and manage a local admin account using LAPS CSP.
 
@@ -229,10 +229,10 @@ This example shows how to automatically create and manage a local admin account 
 
 Here's a table that presents the two examples side by side:
 
-| **Aspect**                        | **2020 Approach Example**                                               | **2024 Approach Example (Insider Preview)**                                |
+| **Aspect**                        | **2020 Approach Example**                                               | **2024 Approach Example (Windows 11 Insider Preivew)**                                |
 |-----------------------------------|-------------------------------------------------------------------------|----------------------------------------------------------------------------|
 | **Scenario**                      | Create a local user account named `LocalUser` with admin rights.        | Automatically create a local admin account with prefix `CorpAdmin-`, randomize the name, and enforce password complexity. |
-| **Platform**                      | Windows 10 and later                                                    | Windows 10 and later (Insider Preview)                                     |
+| **Platform**                      | Windows 10 and later                                                    | Windows 10 and later (Windows 11 Insider Preivew)                                     |
 | **Profile Type**                  | Custom                                                                  | Custom                                                                     |
 | **OMA-URI for Account Creation**  | `./Device/Vendor/MSFT/Accounts/Users/LocalUser/Password`                | `./Device/Vendor/MSFT/LAPS/Policies/AutomaticAccountManagementEnableAccount` |
 | **Data Type**                     | String                                                                  | Bool                                                                       |
