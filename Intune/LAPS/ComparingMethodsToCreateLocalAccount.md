@@ -11,17 +11,7 @@
 6. [Credits and References](#credits-and-references)
 7. [Conclusion](#conclusion)
 
-**Section Headers in the Document:**
 
-```
-## Introduction
-## 2020 Approach vs. 2024 Approach
-## Detailed Implementation Guide
-## Best Practices
-## FAQs
-## Credits and References
-## Conclusion
-```
 
 
 ### Table of Contents
@@ -570,3 +560,16 @@ Both the 2020 and 2024 approaches to managing local administrator accounts on Wi
 -   Ensure that all local admin accounts are properly managed with unique, complex passwords and that ongoing password management is in place through LAPS policies.
 
 By following the best practices and guidelines provided, you can effectively manage local administrator accounts in your organization, enhancing both security and operational efficiency.
+
+
+**Section Headers in the Document:**
+
+```
+## Introduction
+## 2020 Approach vs. 2024 Approach
+## Detailed Implementation Guide
+## Best Practices
+## FAQs
+## Credits and References
+## Conclusion
+```
