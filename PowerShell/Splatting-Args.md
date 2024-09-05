@@ -19,9 +19,7 @@ You generally want to split arguments into an array when using **PowerShell-nati
 
 #### Example:
 
-powershell
 
-Copy code
 
 `$argList = @(
     "-NoExit"
@@ -47,9 +45,6 @@ Some tools (like `cmd.exe`, `PsExec`, or older utilities) expect the **entire co
 
 #### Example:
 
-powershell
-
-Copy code
 
 ``$commandToRun = "`"$pwshPath`" -NoExit -ExecutionPolicy Bypass -File `"$ScriptPathAsSYSTEM`""
 
