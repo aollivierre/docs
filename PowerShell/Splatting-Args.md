@@ -72,13 +72,7 @@ Start-Process -FilePath "PsExec64.exe" -ArgumentList $argList -Wait``
 
 
 
-Summary of When to Split vs. Not Split:
-Scenario	Split Arguments into Array	Pass as a Single String
-PowerShell Cmdlets	✅	❌
-Standard Executables	✅	❌
-Tools like cmd.exe, PsExec	❌	✅
-Handling Paths with Spaces	✅ (when appropriate)	✅ (correct quoting)
-Complex Shell Commands	❌ (for tools like PsExec)	✅
+![image](https://github.com/user-attachments/assets/65fffd60-4adc-458c-b0b7-466c8bb3d1d9)
 
 
 
