@@ -179,7 +179,7 @@ For devices that are never registered in Microsoft Entra ID (i.e., no hybrid or 
 
 ### Summary Workflow Diagram
 
-```mermaid
+```powershell
 flowchart TD
     A[Start Offboarding] --> B[Backup BitLocker Keys]
     B --> C{Determine Join Type?}
