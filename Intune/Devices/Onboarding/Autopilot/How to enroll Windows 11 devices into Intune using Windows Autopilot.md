@@ -8,7 +8,7 @@ Windows Autopilot automates and streamlines the deployment of new or reset/reima
 
 - **Azure AD-join** (Microsoft Entra join) devices automatically.  
 - **Enroll devices in Intune** during the Out-of-Box Experience (OOBE).  
-- **Apply configuration profiles** and **apps** without IT intervention.  
+- **Hands over unmanaged devices over to Intune which will take over to apply configuration profiles** and **apps** without IT intervention.
 
 > *References: [1](https://andrewstaylor.com/2024/09/02/enrolling-windows-devices-into-intune-a-definitive-guide/), [4](https://learn.microsoft.com/en-us/mem/solutions/cloud-native-endpoints/cloud-native-windows-endpoints), [6](https://www.linkedin.com/pulse/windows-autopilot-ultimate-step-by-step-deployment-guide-robin-hobo)*
 
