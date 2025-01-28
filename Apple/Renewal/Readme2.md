@@ -143,7 +143,5 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-📝 Created and maintained by [Your Organization Name]
+📝 Created and maintained by Abdullah Ollivierre
 ```
-
-Would you like me to modify any section or add additional information to this README?
