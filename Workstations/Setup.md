@@ -30,7 +30,7 @@
 ## User Account Information
 - Generic login account: "staff"
 - Windows Hello for Business PIN: 232323
-- Local administrator access: Contact Abdullah as needed
+- Local administrator access: Intune > Devices > [select a device] > Local Admin Password > Show Password
 
 ## Additional Notes
 - Windows Updates, Dell Command Updates, and Microsoft Store updates can be deferred
