@@ -1,4 +1,4 @@
-# Notre Dame Medical Clinic - Workstation Setup Guide
+# Medical Clinic - Workstation Setup Guide
 
 ## Overview
 - Total workstations: 11 computers
