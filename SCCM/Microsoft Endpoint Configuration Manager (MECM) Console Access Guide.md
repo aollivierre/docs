@@ -1,5 +1,3 @@
-# Microsoft Endpoint Configuration Manager (MECM) Console Access Guide
-
 ## Overview
 This document outlines multiple approaches for accessing and managing the Microsoft Endpoint Configuration Manager (MECM) console and client components. Methods are organized by Command-Line Interface (CLI) and Graphical User Interface (GUI) approaches.
 
@@ -20,6 +18,7 @@ Before beginning, ensure:
 
 2. **Software Center Direct Access**
    ```cmd
+   From a run window (NOT CLI)
    SoftwareCenter:
    ```
 
@@ -41,13 +40,33 @@ Before beginning, ensure:
    ```
 
 2. **Policy Refresh Commands**
-   ```powershell
-   # Machine Policy Retrieval
-   Invoke-WMIMethod -Namespace root\ccm -Class SMS_CLIENT -Name TriggerSchedule "{00000000-0000-0000-0000-000000000021}"
 
-   # User Policy Retrieval
-   Invoke-WMIMethod -Namespace root\ccm -Class SMS_CLIENT -Name TriggerSchedule "{00000000-0000-0000-0000-000000000026}"
+The two commands you provided trigger different **SCCM client actions** based on the GUIDs specified in the `-ArgumentList` parameter. Here's the breakdown:
+
+1. **Command 1:**
+   ```powershell
+   Invoke-WMIMethod -Namespace root\ccm -Class SMS_CLIENT -Name TriggerSchedule -ArgumentList '{00000000-0000-0000-0000-000000000021}'
    ```
+   - **Action Triggered:** *Machine Policy Retrieval & Evaluation Cycle*.
+   - **Purpose:** This action forces the SCCM client to retrieve and evaluate its machine policies from the management point. It is typically used to ensure that the client receives updated policies or configurations from the server.
+
+2. **Command 2:**
+   ```powershell
+   Invoke-WMIMethod -Namespace root\ccm -Class SMS_CLIENT -Name TriggerSchedule -ArgumentList '{00000000-0000-0000-0000-000000000121}'
+   ```
+   - **Action Triggered:** *Application Deployment Evaluation Cycle*.
+   - **Purpose:** This action evaluates application deployment policies on the client. It checks whether applications assigned to the machine are compliant or need to be installed, repaired, or updated.
+
+### Key Differences
+| **Aspect**                      | **Command 1** (GUID: 021)                           | **Command 2** (GUID: 121)                            |
+|----------------------------------|----------------------------------------------------|-----------------------------------------------------|
+| **Action Name**                 | Machine Policy Retrieval & Evaluation Cycle         | Application Deployment Evaluation Cycle             |
+| **Primary Function**            | Fetches and evaluates machine policies             | Evaluates application deployment policies           |
+| **Use Case**                    | Ensures updated machine policies are applied       | Ensures application compliance and deployment       |
+| **Logs to Check**               | `PolicyAgent.log`                                  | `AppIntentEval.log`                                 |
+
+Both commands are useful for troubleshooting SCCM client issues but serve different purposes in client management workflows.
+
 
 ## Method 2: GUI-Based Approaches
 
