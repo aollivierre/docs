@@ -1,5 +1,3 @@
-# PowerShell Code Signing Process Documentation
-
 ## Overview
 
 This document outlines the code signing process for PowerShell scripts in our environment. Code signing is required due to the SCCM/MECM policy implemented on our computers and servers that enforces script execution policies.
@@ -10,6 +8,7 @@ This document outlines the code signing process for PowerShell scripts in our en
 - PowerShell scripts (.ps1) that are manually pushed through MECM
 - Scripts published to Software Center (available or required)
 - Platform scripts used for deployment
+- Automated scripts (scheduled tasks, remediation scripts)
 
 ### Scripts That Don't Require Signing:
 - PS App Deploy Toolkit (PSADT) scripts (Any scripts using deploy-application.exe as the execution method)
@@ -17,7 +16,7 @@ This document outlines the code signing process for PowerShell scripts in our en
 - SQL scripts
 - WQL scripts
 - VBScripts
-- Automated scripts (scheduled tasks, remediation scripts)
+
 
 ## Certificate Location and Access
 
