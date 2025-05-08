@@ -1,12 +1,33 @@
 # Windows Hello for Business Troubleshooting Guide for Desktop Support
 ## For Windows 11 Enterprise Systems (Hybrid Joined & Co-managed)
 
+### Key Concepts
+> **Important Terms**:
+> - **NGC (Next Generation Credentials)**: The underlying technology for Windows Hello for Business that provides secure storage and management of modern credentials, replacing traditional passwords.
+> - **TPM (Trusted Platform Module)**: A hardware-based security component that securely stores authentication keys.
+> - **Windows Hello for Business**: Enterprise-grade authentication that uses NGC technology with biometrics or PINs.
+
+### Domain Environment Requirements
+> **IMPORTANT**: In a domain environment (Active Directory), Windows Hello for Business requires specific configuration:
+>
+> **Domain Level Requirements:**
+> - Group Policy configuration for Windows Hello for Business
+> - Certificate templates (for certificate trust deployment)
+> - Or key trust deployment configuration
+> - Domain Controller configuration
+>
+> **Local Machine Requirements:**
+> - TPM 2.0
+> - Windows 11 Enterprise
+> - Proper NGC service configuration
+> - Domain joined status
+
 ### Administrative Privilege Requirements
-> ⚠️ **IMPORTANT**: Some WHfB troubleshooting commands require specific privileges. Here's a breakdown:
+> **IMPORTANT**: Some WHfB troubleshooting commands require specific privileges. Here's a breakdown:
 >
 > **Always Requires Admin:**
-> - TPM operations (Get-Tpm, Clear-Tpm)
-> - NGC folder modifications (certutil -DeleteHelloContainer)
+> - TPM operations (Get-Tpm, Get-TpmEndorsementKeyInfo)
+> - NGC folder modifications
 > - Registry modifications in HKLM
 > - System-wide event logs
 >
@@ -15,142 +36,132 @@
 > - Viewing current user's certificates
 > - Basic event log viewing (HelloForBusiness/Operational)
 > - PIN management via Settings
-> - Viewing current user's NGC status
 >
-> **May Require Admin (Context-Dependent):**
-> - Azure AD operations (depends on user's Azure AD role)
-> - Some event logs (depends on log permissions)
-> - Certificate operations (depends on certificate store)
+> **May Require Domain Admin:**
+> - Group Policy modifications
+> - Certificate template configuration
+> - Domain Controller configuration
 
-### Prerequisites Check
-Before troubleshooting, verify these requirements using PowerShell:
+### Pre-Setup Diagnostics
+Before Windows Hello for Business is configured, verify these requirements using PowerShell:
 
 ```powershell
 # === USER LEVEL (No Admin Required) ===
-# Check device registration status
+# Check device registration and domain status
 dsregcmd /status | findstr /i "AzureAdJoined DomainJoined"
+systeminfo | findstr /B /C:"Domain"
 
-# Check user's certificates
-Get-ChildItem -Path Cert:\CurrentUser\My -EKU "1.3.6.1.4.1.311.20.2.2"
-
-# View user's WHfB events
+# View WHfB events (works before and after setup)
 Get-WinEvent -LogName "Microsoft-Windows-HelloForBusiness/Operational" -MaxEvents 5
 
 # === REQUIRES ADMIN ===
 # Verify TPM status
-Get-Tpm
+Get-Tpm | Select-Object TpmPresent, TpmReady, TpmEnabled, TpmActivated
+
+# Check TPM endorsement key
 Get-TpmEndorsementKeyInfo
 
-# Check Windows Hello for Business system status
-certutil -generateHelloContainer -status
-```
-
-### Common Issues and PowerShell Diagnostic Commands
-
-#### 1. Device Registration Issues
-```powershell
-# === USER LEVEL (No Admin Required) ===
-# Check device registration status
-dsregcmd /status
-
-# === REQUIRES ADMIN ===
-# Check device in Azure AD (requires appropriate Azure AD role)
-Get-AzureADDevice -SearchString $env:COMPUTERNAME
-
-# Verify NGC folder exists and permissions
+# Verify NGC infrastructure
 $ngcPath = "$env:SystemDrive\Windows\ServiceProfiles\LocalService\AppData\Local\Microsoft\Ngc"
 Test-Path $ngcPath
-Get-Acl $ngcPath
+Get-Acl $ngcPath | Format-List
 
-# Check registry settings
-Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Authentication\EnablePinSignIn"
+# Check Windows Hello credential provider registration
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{D6886603-9D2F-4EB2-B667-1971041FA96B}"
+
+# Check NGC services status
+Get-Service NgcSvc, NgcCtnrSvc | Select-Object Name, Status, StartType
+
+# Verify Windows Hello capabilities
+Get-WindowsCapability -Online | Where-Object { $_.Name -like "*Hello*" }
 ```
 
-#### 2. Certificate Problems
+### Domain Configuration Checks
+For domain environments, verify these additional items:
+
+```powershell
+# Check domain controller availability
+nltest /dsgetdc:$env:USERDNSDOMAIN
+
+# Check Group Policy settings (requires Domain Admin)
+gpresult /h "$env:USERPROFILE\Desktop\GPReport.html"
+
+# Check local security policy
+secedit /export /cfg "$env:USERPROFILE\Desktop\secpol.cfg"
+Get-Content "$env:USERPROFILE\Desktop\secpol.cfg" | Select-String -Pattern "Pin|Hello|Credential|NGC"
+
+# Check Windows Hello policies
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork" -ErrorAction SilentlyContinue
+```
+
+### Post-Setup Verification
+After Windows Hello for Business is configured with a PIN or biometrics, additional diagnostics become available:
+
 ```powershell
 # === USER LEVEL (No Admin Required) ===
-# List Windows Hello certificates
-certutil -store -user My
-
-# Check certificate template
-$cert = Get-ChildItem -Path Cert:\CurrentUser\My -EKU "1.3.6.1.4.1.311.20.2.2"
-$cert | Format-List Subject, Issuer, NotBefore, NotAfter, TemplateInformation
+# Check for WHfB certificates
+Get-ChildItem -Path Cert:\CurrentUser\My -EKU "1.3.6.1.4.1.311.20.2.2"
 
 # === REQUIRES ADMIN ===
-# Verify certificate chain
-certutil -verify $cert.Thumbprint
+# Check NGC key storage
+certutil -csp "Microsoft Passport Key Storage Provider" -key -v
 
-# Check Smart Card KSP status
-certutil -csp "Microsoft Smart Card Key Storage Provider" -key -v
-
-# Verify enterprise certificate settings
-certutil -enterpriseCA
+# Verify NGC container contents
+Get-ChildItem -Path $ngcPath -Recurse -Force
 ```
 
-#### 3. NGC (Next Generation Credentials) Issues
-```powershell
-# === REQUIRES ADMIN ===
-# Take ownership of NGC folder
-$ngcPath = "$env:SystemDrive\Windows\ServiceProfiles\LocalService\AppData\Local\Microsoft\Ngc"
-takeown /f $ngcPath /r /d y
-icacls $ngcPath /grant administrators:F /t
+### Common Issues and Solutions
 
-# Clean NGC folder (requires restart)
-certutil -DeleteHelloContainer
+#### 1. TPM Issues
+If TPM checks fail:
+- Verify TPM is enabled in BIOS
+- Check TPM status: `Get-Tpm | Select-Object -Property *`
+- Review TPM events in Event Viewer
 
-# Reset NGC state
-Remove-Item -Path $ngcPath -Force -Recurse
+#### 2. NGC (Next Generation Credentials) Issues
+If NGC checks fail:
+- Verify NGC services are running: `Get-Service NgcSvc, NgcCtnrSvc`
+- Check NGC folder permissions (should be owned by LOCAL SERVICE)
+- Review NGC events in Event Viewer
 
-# Check NGC key type (1=TPM, 2=Software)
-certutil -csp "Microsoft Passport Key Storage Provider" -key -v | findstr NgcKeyImplType
+#### 3. Domain-Related Issues
+If Windows Hello options are not appearing:
+- Verify Group Policy settings
+- Check domain connectivity
+- Ensure proper certificate templates are configured (for certificate trust)
+- Verify domain controller configuration
 
-# Verify NGC container status
-certutil -generateHelloContainer -status
-```
-
-#### 4. TPM Troubleshooting
-```powershell
-# === REQUIRES ADMIN ===
-# Detailed TPM status
-Get-Tpm | Select-Object -Property *
-
-# Check TPM ownership
-(Get-Tpm).OwnerClearDisabled
-
-# Verify TPM is ready for WHfB
-Get-WinEvent -LogName "Microsoft-Windows-TPM-WMI/Operational"
-
-# Check TPM provisioning status
-Get-CimInstance -Namespace root/cimv2/Security/MicrosoftTpm -ClassName Win32_Tpm
-
-# Verify TPM PCR status
-Get-TpmEndorsementKeyInfo
-```
-
-#### 5. Event Log Analysis
+### Event Log Analysis
 ```powershell
 # === USER LEVEL (No Admin Required) ===
 # Windows Hello for Business operational logs
-Get-WinEvent -LogName "Microsoft-Windows-HelloForBusiness/Operational"
+Get-WinEvent -LogName "Microsoft-Windows-HelloForBusiness/Operational" -MaxEvents 10
 
 # === REQUIRES ADMIN ===
-# System-wide authentication logs
-Get-WinEvent -LogName "Microsoft-Windows-Authentication/AuthenticationPolicyFailures-DomainController"
-
-# TPM errors
-Get-WinEvent -LogName "Microsoft-Windows-TPM-WMI/Admin"
-
-# Export all relevant logs
-$logPaths = @(
-    "Microsoft-Windows-HelloForBusiness/Operational",
-    "Microsoft-Windows-User Device Registration/Admin",
-    "Microsoft-Windows-TPM-WMI/Operational"
-)
-foreach ($log in $logPaths) {
-    $fileName = ($log -split '/')[-1]
-    Get-WinEvent -LogName $log | Export-Csv -Path "$env:USERPROFILE\Desktop\${fileName}_Logs.csv"
-}
+# Export WHfB logs for analysis
+$logPath = "$env:USERPROFILE\Desktop\WHfB_Logs.csv"
+Get-WinEvent -LogName "Microsoft-Windows-HelloForBusiness/Operational" | Export-Csv -Path $logPath
 ```
+
+### Troubleshooting Tips
+1. **Pre-Setup Issues**:
+   - Verify TPM is ready and enabled
+   - Ensure NGC services are running
+   - Check device registration status
+   - Verify domain connectivity
+
+2. **Domain Environment**:
+   - Group Policy settings take precedence
+   - Local configuration may be overridden by domain policy
+   - Certificate or key trust must be properly configured
+
+3. **General Tips**:
+   - Always check both user-level and admin-level components
+   - Review event logs for sequence of operations
+   - Verify service dependencies are running
+   - In VMs, some biometric features may not be available
+
+> **Note**: Some commands will show limited or no output before Windows Hello for Business is configured. This is normal and expected behavior.
 
 ### Advanced Health Check Script
 ```powershell
@@ -221,6 +232,107 @@ function Check-WHfBHealth {
 # Run the health check
 Check-WHfBHealth
 ```
+
+### Reset and Removal Procedures
+
+#### Non-Destructive Options
+These options preserve user data and system configuration:
+
+```powershell
+# === USER LEVEL (No Admin Required) ===
+# 1. Reset PIN (through Settings UI)
+ms-settings:signinoptions   # Open Sign-in Options
+
+# 2. View current PIN reset count
+Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{D6886603-9D2F-4EB2-B667-1971041FA96B}" -ErrorAction SilentlyContinue
+
+# === REQUIRES ADMIN ===
+# 3. Reset PIN for specific user (less destructive)
+$username = "username"
+$sid = (Get-WmiObject -Class Win32_UserAccount -Filter "Name='$username'").SID
+Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{D6886603-9D2F-4EB2-B667-1971041FA96B}\$sid" -Force -ErrorAction SilentlyContinue
+```
+
+#### Moderately Destructive Options
+These options remove Windows Hello settings but preserve other configurations:
+
+```powershell
+# === REQUIRES ADMIN ===
+# 1. Remove Windows Hello container using certutil
+certutil -deletehellocontainer
+
+# Note: Expected errors if Windows Hello is not configured:
+# "CertUtil: -DeleteHelloContainer command FAILED: 0x80090010 (-2146893808 NTE_PERM)"
+# "CertUtil: Access denied."
+
+# Alternative method: Remove Windows Hello container manually
+$containerPath = "$env:SystemDrive\Windows\ServiceProfiles\LocalService\AppData\Local\Microsoft\Ngc"
+Get-ChildItem -Path $containerPath -Filter "*$env:USERNAME*" | Remove-Item -Force -Recurse
+
+# 2. Stop and reset NGC services (temporary)
+Stop-Service NgcSvc, NgcCtnrSvc -Force
+Start-Service NgcSvc, NgcCtnrSvc
+
+# 3. Clear TPM keys for Windows Hello (preserves other TPM data)
+Get-WinEvent -LogName "Microsoft-Windows-HelloForBusiness/Operational" -MaxEvents 1000 | 
+    Where-Object { $_.Id -eq 300 } | 
+    ForEach-Object { 
+        $ngcPath = "$containerPath\$($_.Properties[0].Value)"
+        if (Test-Path $ngcPath) {
+            Remove-Item -Path $ngcPath -Force -Recurse
+        }
+    }
+```
+
+#### Destructive Options (Use with Caution)
+These options completely remove Windows Hello and related configurations:
+
+```powershell
+# === REQUIRES ADMIN ===
+# 1. Remove all NGC containers (affects all users)
+Stop-Service NgcSvc, NgcCtnrSvc -Force
+Remove-Item -Path "$env:SystemDrive\Windows\ServiceProfiles\LocalService\AppData\Local\Microsoft\Ngc" -Force -Recurse
+Start-Service NgcSvc, NgcCtnrSvc
+
+# 2. Clear TPM for Windows Hello (affects other TPM-dependent features)
+Clear-Tpm
+
+# 3. Remove Windows Hello policies
+Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\PassportForWork" -Force -Recurse
+Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\AllowDomainPINLogon" -Force
+
+# 4. Disable Windows Hello services (most destructive)
+Set-Service NgcSvc -StartupType Disabled
+Set-Service NgcCtnrSvc -StartupType Disabled
+Stop-Service NgcSvc, NgcCtnrSvc -Force
+```
+
+> ⚠️ **WARNING**:
+> - Always backup important data before performing destructive operations
+> - In domain environments, these changes might be reverted by Group Policy
+> - Clearing TPM affects other security features like BitLocker
+> - Document current settings before making destructive changes
+> - Consider user impact and schedule maintenance window if needed
+
+#### Post-Reset Steps
+After performing any reset operation:
+
+1. Non-Destructive Reset:
+   - User can set up new PIN immediately
+   - No system restart required
+   - No impact on other users
+
+2. Moderate Reset:
+   - Sign out and sign back in
+   - Set up Windows Hello again
+   - Other users not affected
+
+3. Destructive Reset:
+   - Restart computer
+   - Reconfigure Windows Hello policies
+   - All users must set up Windows Hello again
+   - Verify TPM status if cleared
+   - Check BitLocker and other security features
 
 ### When to Escalate
 Escalate to Tier 2 support if:
