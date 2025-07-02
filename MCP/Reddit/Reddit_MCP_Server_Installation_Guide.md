@@ -113,13 +113,15 @@ claude
 ### Step 6: Verification and Testing
 
 #### 6.1 Verify Reddit MCP server is available
-In the new Claude Code session, the Reddit server should appear in available MCP servers and provide these tools:
+In the new Claude Code session, the Reddit server should appear in available MCP servers and provide these **8 tools**:
 - `mcp__reddit__get_frontpage_posts`
 - `mcp__reddit__get_subreddit_info`
 - `mcp__reddit__get_subreddit_hot_posts`
 - `mcp__reddit__get_subreddit_new_posts`
 - `mcp__reddit__get_subreddit_top_posts`
+- `mcp__reddit__get_subreddit_rising_posts`
 - `mcp__reddit__get_post_content`
+- `mcp__reddit__get_post_comments`
 
 ---
 
@@ -222,16 +224,20 @@ In new Claude Code session, verify that Reddit MCP tools are available by attemp
 
 ## 📚 Available Reddit MCP Tools
 
-Once successfully installed, these tools become available:
+Once successfully installed, these **8 tools** become available (all read-only):
 
-| Tool Name | Function | Description |
-|-----------|----------|-------------|
-| `get_frontpage_posts` | Fetch Reddit frontpage | Gets posts from Reddit's front page |
-| `get_subreddit_info` | Subreddit metadata | Retrieves information about a specific subreddit |
-| `get_subreddit_hot_posts` | Hot posts | Gets hot posts from a specific subreddit |
-| `get_subreddit_new_posts` | New posts | Gets newest posts from a specific subreddit |
-| `get_subreddit_top_posts` | Top posts | Gets top-rated posts from a specific subreddit |
-| `get_post_content` | Full post details | Gets complete post content including comments |
+| Tool Name | Function | Description | Parameters |
+|-----------|----------|-------------|------------|
+| `get_frontpage_posts` | Fetch Reddit frontpage | Gets hot posts from Reddit's front page | `limit` (1-100, default 10) |
+| `get_subreddit_info` | Subreddit metadata | Retrieves information about a specific subreddit | `subreddit_name` (required) |
+| `get_subreddit_hot_posts` | Hot posts | Gets hot posts from a specific subreddit | `subreddit_name` (required), `limit` (optional) |
+| `get_subreddit_new_posts` | New posts | Gets newest posts from a specific subreddit | `subreddit_name` (required), `limit` (optional) |
+| `get_subreddit_top_posts` | Top posts | Gets top-rated posts from a specific subreddit | `subreddit_name` (required), `limit` & `time` (optional) |
+| `get_subreddit_rising_posts` | Rising posts | Gets rising posts from a specific subreddit | `subreddit_name` (required), `limit` (optional) |
+| `get_post_content` | Full post details | Gets complete post content including comments | `post_id` (required), `comment_limit` & `comment_depth` (optional) |
+| `get_post_comments` | Post comments | Gets comments from a specific post | `post_id` (required), `limit` (optional) |
+
+**Important**: All tools are **read-only**. No tools are available for creating posts, comments, or any write operations on Reddit.
 
 ---
 
